@@ -53,4 +53,7 @@ module.exports = class JsonStorage {
             cb();
         }
     }
+
+  };
+
 };
