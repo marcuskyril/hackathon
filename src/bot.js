@@ -13,8 +13,7 @@ class YourBotBuilder {
     constructor() {
         this.appId = process.env.APP_ID || ''; // Can be emtpy, but remember to insert them in the emulator also
         this.appPw = process.env.APP_PW || ''; // Can be emtpy, but remember to insert them in the emulator also
-        this.luis = process.env.LUIS_URL || 'https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/79794170-1a02-4cad-b90a-365c2b2ffd58?subscription-key=f92c99145e1f43688395fdd8c0de6115&staging=true&verbose=true&timezoneOffset=0&q=';
-        this.connector = null;
+        this.luis = process.env.LUIS_URL || 'https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/79794170-1a02-4cad-b90a-365c2b2ffd58?subscription-key=f92c99145e1f43688395fdd8c0de6115&staging=true&timezoneOffset=0&verbose=true&q=';
         this.recognizer = [];
     }
 
@@ -64,12 +63,13 @@ class YourBot {
           BaseDialog.askForPreference_2,
           BaseDialog.askForPricePreference,
           BaseDialog.askForNextAction
-        ])
-        .triggerAction({ matches: /^(hello)/i })
-        .cancelAction('CancelPlaceAdding', 'Okay', { matches: /^(cancel|nevermind|abort)/i });
+        ]).triggerAction({ matches: 'greet' })
 
-        this.core.dialog(SearchDialog.getName(), [SearchDialog.askUserForLocation, SearchDialog.retrieveRecommendations, SearchDialog.validateRecommendations])
-            .triggerAction({ matches: 'search' })
+        this.core.dialog(SearchDialog.getName(), [
+            SearchDialog.askUserForLocation,
+            SearchDialog.retrieveRecommendations,
+            SearchDialog.validateRecommendations
+        ]).triggerAction({ matches: 'search' })
     }
 }
 

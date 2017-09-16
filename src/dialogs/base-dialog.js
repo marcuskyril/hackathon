@@ -18,16 +18,18 @@ class HelloWorldDialog {
     }
 
     askForPreference_0(session, result) {
+        session.userData.name = result.response;
         session.send(Messages.ProceedToPreferences.replace('%s', result.response));
-        Builder.Prompts.choice(session, 'Italian?', "Love it|Decent|Okay|Not so much", { listStyle: Builder.ListStyle.button });
+        Builder.Prompts.choice(session, 'Italian?', "Love it!|Decent|Okay|Not so much", { listStyle: Builder.ListStyle.button });
+        console.log(session.userData.name);
     }
 
     askForPreference_1(session, result) {
-        Builder.Prompts.choice(session, 'Turkish?', "Love it|Decent|Okay|Not so much", { listStyle: Builder.ListStyle.button });
+        Builder.Prompts.choice(session, 'Asian?', "Love it!|Decent|Okay|Not so much", { listStyle: Builder.ListStyle.button });
     }
 
     askForPreference_2(session, result) {
-        Builder.Prompts.choice(session, 'American?', "Love it|Decent|Okay|Not so much", { listStyle: Builder.ListStyle.button })
+        Builder.Prompts.choice(session, 'American?', "Love it!|Decent|Okay|Not so much", { listStyle: Builder.ListStyle.button })
     }
 
     askForPricePreference(session, result) {
