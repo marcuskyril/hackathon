@@ -3,25 +3,6 @@ const Builder = require('botbuilder');
 
 const { Logger, Messages } = require('../shared/const');
 
-var firebase = require('firebase');
-
-var config = {
-  apiKey: "AIzaSyCK96jEQUwFKUHNCn3CzS0ZpPB_RAM639o",
-  authDomain: "hackathon-e2bf0.firebaseapp.com",
-  databaseURL: "https://hackathon-e2bf0.firebaseio.com",
-  storageBucket: "hackathon-e2bf0.appspot.com",
-};
-
-firebase.initializeApp(config);
-
-function writeData(userId, name, email, imageUrl) {
-  firebase.database().ref('users/' + userId).set({
-    username: name,
-    email: email,
-    profile_picture : imageUrl
-  });
-}
-
 class HelloWorldDialog {
     constructor() { Logger.info('Created Instance of HelloWorldDialog'); }
     getName() { return 'UserInputDialog'; } // Needs to be unique otherwise an error occurs during registration
@@ -38,20 +19,37 @@ class HelloWorldDialog {
 
     askForPreference_0(session, result) {
       var name = result.response;
+
+      session.userData.name = name;
+
       session.send(Messages.proceedToPreferences.replace('%s', name));
       Builder.Prompts.choice(session, 'Italian?', "Not so much|Okay|I like it|I love it!", { listStyle: Builder.ListStyle.button });
     }
 
     askForPreference_1(session, result) {
-        Builder.Prompts.choice(session, 'Asian?', "Not so much|Okay|I like it|I love it!", { listStyle: Builder.ListStyle.button });
+
+      session.userData.cuisines = {
+        'Italian': result.response
+      };
+
+      Builder.Prompts.choice(session, 'Asian?', "Not so much|Okay|I like it|I love it!", { listStyle: Builder.ListStyle.button });
     }
 
     askForPreference_2(session, result) {
-        Builder.Prompts.choice(session, 'American?', "Not so much|Okay|I like it|I love it!", { listStyle: Builder.ListStyle.button });
+      session.userData.cuisines = {
+        'Asian': result.response
+      };
+
+      Builder.Prompts.choice(session, 'American?', "Not so much|Okay|I like it|I love it!", { listStyle: Builder.ListStyle.button });
     }
 
     askForPricePreference(session, result) {
-        Builder.Prompts.choice(session, "Great! Now, what is the price range you're looking for?", "€|€€|€€€|€€€€", { listStyle: Builder.ListStyle.button });
+
+      session.userData.cuisines = {
+        'American': result.response
+      };
+
+      Builder.Prompts.choice(session, "Great! Now, what is the price range you're looking for?", "€|€€|€€€|€€€€", { listStyle: Builder.ListStyle.button });
     }
 }
 

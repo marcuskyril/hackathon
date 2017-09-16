@@ -68,6 +68,8 @@ class YourBot {
         .triggerAction({ matches: /^(hello)/i })
         .cancelAction('CancelPlaceAdding', 'Okay', { matches: /^(cancel|nevermind|abort)/i });
 
+        console.log(session.userData);
+
         this.core.dialog(SearchDialog.getName(), [SearchDialog.askUserForLocation, SearchDialog.retrieveRecommendations, SearchDialog.validateRecommendations])
             .triggerAction({ matches: 'search' })
     }
