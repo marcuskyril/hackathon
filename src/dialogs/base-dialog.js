@@ -3,6 +3,25 @@ const Builder = require('botbuilder');
 
 const { Logger, Messages } = require('../shared/const');
 
+var firebase = require('firebase');
+
+var config = {
+  apiKey: "AIzaSyCK96jEQUwFKUHNCn3CzS0ZpPB_RAM639o",
+  authDomain: "hackathon-e2bf0.firebaseapp.com",
+  databaseURL: "https://hackathon-e2bf0.firebaseio.com",
+  storageBucket: "hackathon-e2bf0.appspot.com",
+};
+
+firebase.initializeApp(config);
+
+function writeData(userId, name, email, imageUrl) {
+  firebase.database().ref('users/' + userId).set({
+    username: name,
+    email: email,
+    profile_picture : imageUrl
+  });
+}
+
 class HelloWorldDialog {
     constructor() { Logger.info('Created Instance of HelloWorldDialog'); }
     getName() { return 'UserInputDialog'; } // Needs to be unique otherwise an error occurs during registration
@@ -18,9 +37,9 @@ class HelloWorldDialog {
     }
 
     askForPreference_0(session, result) {
-        console.log(result.response);
-        session.send(Messages.proceedToPreferences.replace('%s', result.response));
-        Builder.Prompts.choice(session, 'Italian?', "Not so much|Okay|I like it|I love it!", { listStyle: Builder.ListStyle.button });
+      var name = result.response;
+      session.send(Messages.proceedToPreferences.replace('%s', name));
+      Builder.Prompts.choice(session, 'Italian?', "Not so much|Okay|I like it|I love it!", { listStyle: Builder.ListStyle.button });
     }
 
     askForPreference_1(session, result) {

@@ -1,6 +1,7 @@
 'use strict';
 const Builder = require('botbuilder');
 const yelp = require('yelp-fusion');
+var moment = require('moment');
 
 // yelp credentials
 var yelpCredentials = {
@@ -20,67 +21,69 @@ class SearchDialog {
     }
 
     retrieveRecommendations(session, result, next) {
-      console.log('LOOK HERE', session.message.timestamp);
-        session.send(Messages.Recommendations);
-        // session.send(Messages.PersonalGreeting.replace('%s', result.response)).endDialog();
+      let timestamp = moment(session.message.timestamp).get('hour');
 
-        return new Promise (function(resolve, reject) {
-      		yelp.accessToken(yelpCredentials.username, yelpCredentials.password).then(response => {
-      			var token = response.jsonBody.access_token;
+      session.send(Messages.Recommendations);
+      // session.send(Messages.PersonalGreeting.replace('%s', result.response)).endDialog();
 
-      			const yelpClient = yelp.client(token);
+      return new Promise (function(resolve, reject) {
+    		yelp.accessToken(yelpCredentials.username, yelpCredentials.password).then(response => {
+    			var token = response.jsonBody.access_token;
 
-      			var results = Messages.Recommendations;
+    			const yelpClient = yelp.client(token);
 
-            var msg = new Builder.Message(session);
-        		msg.attachmentLayout(Builder.AttachmentLayout.carousel);
-            var attachments = [];
+    			var results = Messages.Recommendations;
 
-      			yelpClient.search({
-      			  term: 'food',
-      			  location: result.response
-      			}).then(response => {
-      				if(response) {
-                // send(response.jsonBody.businesses);
+          var msg = new Builder.Message(session);
+      		msg.attachmentLayout(Builder.AttachmentLayout.carousel);
+          var attachments = [];
 
-                var recs = response.jsonBody.businesses;
+    			yelpClient.search({
+    			  term: 'food',
+    			  location: result.response
+    			}).then(response => {
+    				if(response) {
+              // send(response.jsonBody.businesses);
 
-                let tmpCard = null;
+              var recs = response.jsonBody.businesses;
 
-                recs.forEach((rec) => {
+              let tmpCard = null;
 
-                  tmpCard = [
-          					new Builder.HeroCard(session)
-          						.title(rec.name)
-          						.subtitle(`Rating: ${rec.rating}, Price: ${rec.price}`)
-          						.text(rec.address1)
-          						.images([Builder.CardImage.create(session, rec.image_url)])
-          						.buttons([
-          							Builder.CardAction.openUrl(session, rec.url, 'Check this out'),
-          							Builder.CardAction.openUrl(session, `https://www.google.com.sg/maps/dir/49.487248, 8.468453/${rec.coordinates.latitude},${rec.coordinates.longitude}`, 'Directions')
-          						])
-          				];
-                  attachments.push(...tmpCard);
+              recs.forEach((rec) => {
 
-                });
+                // var openingHours = rec.hours.open; // array of timestamps
+                tmpCard = [
+        					new Builder.HeroCard(session)
+        						.title(rec.name)
+        						.subtitle(`Rating: ${rec.rating}, Price: ${rec.price}`)
+        						.text(rec.address1)
+        						.images([Builder.CardImage.create(session, rec.image_url)])
+        						.buttons([
+        							Builder.CardAction.openUrl(session, rec.url, 'Check this out'),
+        							Builder.CardAction.openUrl(session, `https://www.google.com.sg/maps/dir/49.487248, 8.468453/${rec.coordinates.latitude},${rec.coordinates.longitude}`, 'Directions')
+        						])
+        				];
+                attachments.push(...tmpCard);
+                
+              });
 
-                msg.attachments(attachments);
-          			session.send(msg);
-                next(session);
+              msg.attachments(attachments);
+        			session.send(msg);
+              next(session);
 
-      					resolve(response.jsonBody.businesses)
-      				} else {
-      					reject();
-      				}
+    					resolve(response.jsonBody.businesses)
+    				} else {
+    					reject();
+    				}
 
-      			}).catch(e => {
-      			  console.log(e);
-      			});
+    			}).catch(e => {
+    			  console.log(e);
+    			});
 
-      		}).catch(e => {
-      			console.log(e);
-      		})
-      	})
+    		}).catch(e => {
+    			console.log(e);
+    		})
+    	})
     }
 
     validateRecommendations(session, result) {
