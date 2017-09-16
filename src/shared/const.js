@@ -24,12 +24,23 @@ Logger.handleExceptions(new Winston.transports.File({
     humanReadableUnhandledException: true
 }));
 
+<<<<<<< HEAD
 // Responses sent by your bot
 const Messages = {
     Greeting: "Welcome to our restautrant recommendation bot! \
               We'll give you suggestions in your area based on your preferences. First, tell us about yourself.",
     AskForName: 'What is your name?',
     proceedToPreferences: "Hello %s! How much do you like the following cuisines?"
+=======
+// Responses send by your bot
+const Messages = {
+    Greeting: 'Hello I´am your Bot, please extend my features!',
+    AskForName: 'What is your name?',
+    PersonalGreeting: 'Hello %s!',
+    AskForLocation: 'Where are you?',
+    Recommendations: 'Great, here are some recommendations:\n',
+    AskForValidation: 'Had a great meal? Which venue did you visit?'
+>>>>>>> 7db171162604e568a53ee639bb98c0f2ee42bf42
 };
 
 // TODO: Extend the Intents based on LUIS if you use it
