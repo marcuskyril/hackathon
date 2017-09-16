@@ -13,7 +13,7 @@ class YourBotBuilder {
     constructor() {
         this.appId = process.env.APP_ID || ''; // Can be emtpy, but remember to insert them in the emulator also
         this.appPw = process.env.APP_PW || ''; // Can be emtpy, but remember to insert them in the emulator also
-        this.luis = process.env.LUIS_URL || 'TODO-INSERT-LUIS-URK';
+        this.luis = process.env.LUIS_URL || 'https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/eb69b766-79ac-4ad1-9045-07789057a505?subscription-key=a0f1dac6406b4ae3b90c252e98d2eb92&verbose=true&timezoneOffset=0&q=';
         this.connector = null;
         this.recognizer = [];
     }

@@ -20,6 +20,7 @@ class SearchDialog {
     }
 
     retrieveRecommendations(session, result, next) {
+      console.log('LOOK HERE', session.message.timestamp);
         session.send(Messages.Recommendations);
         // session.send(Messages.PersonalGreeting.replace('%s', result.response)).endDialog();
 
@@ -47,8 +48,6 @@ class SearchDialog {
                 let tmpCard = null;
 
                 recs.forEach((rec) => {
-                  // session.send(rec.name);
-                  // results += `${rec.name}, `;
 
                   tmpCard = [
           					new Builder.HeroCard(session)
