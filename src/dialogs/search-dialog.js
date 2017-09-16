@@ -39,7 +39,7 @@ class SearchDialog {
           var attachments = [];
 
     			yelpClient.search({
-    			  term: 'food',
+    			  term: 'restaurant',
     			  location: result.response
     			}).then(response => {
     				if(response) {
@@ -51,11 +51,13 @@ class SearchDialog {
 
               recs.forEach((rec) => {
 
+                console.log(rec);
+
                 // var openingHours = rec.hours.open; // array of timestamps
                 tmpCard = [
         					new Builder.HeroCard(session)
         						.title(rec.name)
-        						.subtitle(`Rating: ${rec.rating}, Price: ${rec.price}`)
+        						.subtitle(`Rating: ${rec.rating}, Price: ${rec.price}, Category: ${rec.categories[0].title}`)
         						.text(rec.address1)
         						.images([Builder.CardImage.create(session, rec.image_url)])
         						.buttons([
@@ -64,7 +66,7 @@ class SearchDialog {
         						])
         				];
                 attachments.push(...tmpCard);
-                
+
               });
 
               msg.attachments(attachments);
@@ -87,7 +89,7 @@ class SearchDialog {
     }
 
     validateRecommendations(session, result) {
-      console.log(session.userData.name);
+      console.log(session.userData);
       session.delay(5000);
       Builder.Prompts.text(session, Messages.AskForValidation);
       session.send('We\'ve saved your response to give you better recommendations in the future!')

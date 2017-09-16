@@ -40,30 +40,34 @@ class HelloWorldDialog {
         session.userData.name = result.response;
         session.send(Messages.ProceedToPreferences.replace('%s', result.response));
         Builder.Prompts.choice(session, 'Italian?', "Love it!|Decent|Okay|Not so much", { listStyle: Builder.ListStyle.button });
-        console.log(session.userData.name);
     }
 
     askForPreference_1(session, result) {
-        Builder.Prompts.choice(session, 'Asian?', "Love it!|Decent|Okay|Not so much", { listStyle: Builder.ListStyle.button });
+      session.userData.cuisines.Italians = {
+        rating: result.response.score
+      }
+      Builder.Prompts.choice(session, 'German?', "Love it!|Decent|Okay|Not so much", { listStyle: Builder.ListStyle.button });
     }
 
     askForPreference_2(session, result) {
-        Builder.Prompts.choice(session, 'American?', "Love it!|Decent|Okay|Not so much", { listStyle: Builder.ListStyle.button })
-        var name = result.response;
-        session.send(Messages.proceedToPreferences.replace('%s', name));
-        Builder.Prompts.choice(session, 'Italian?', "Not so much|Okay|I like it|I love it!", { listStyle: Builder.ListStyle.button });
-    }
+      session.userData.cuisines.German = {
+        rating: result.response.score
+      }
 
-    askForPreference_1(session, result) {
-        Builder.Prompts.choice(session, 'Asian?', "Not so much|Okay|I like it|I love it!", { listStyle: Builder.ListStyle.button });
-    }
-
-    askForPreference_2(session, result) {
-        Builder.Prompts.choice(session, 'American?', "Not so much|Okay|I like it|I love it!", { listStyle: Builder.ListStyle.button });
+      Builder.Prompts.choice(session, 'Mexican?', "Love it!|Decent|Okay|Not so much", { listStyle: Builder.ListStyle.button });
     }
 
     askForPricePreference(session, result) {
-        Builder.Prompts.choice(session, "Great! Now, what is the price range you're looking for?", "€|€€|€€€|€€€€", { listStyle: Builder.ListStyle.button });
+      session.userData.cuisines.Mexican = {
+        rating: result.response.score
+      }
+      console.log(session.userData.cuisines)
+      Builder.Prompts.choice(session, "Great! Now, what is the price range you're looking for?", "€|€€|€€€|€€€€", { listStyle: Builder.ListStyle.button });
+    }
+
+    askForNextAction(session, result) {
+      session.userData.pricePreference = result.response;
+      session.send(Messages.NextAction);
     }
 }
 
