@@ -87,7 +87,7 @@ class SearchDialog {
     }
 
     validateRecommendations(session, result) {
-      console.log('fyeah');
+      console.log(session.userData.name);
       session.delay(5000);
       Builder.Prompts.text(session, Messages.AskForValidation);
       session.send('We\'ve saved your response to give you better recommendations in the future!')

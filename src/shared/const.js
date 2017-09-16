@@ -31,7 +31,7 @@ const Messages = {
     AskForName: 'What is your name?',
     ProceedToPreferences: "Hello %s! How much do you like the following cuisines?",
     NextAction: "You're all set! What do you want to do next?",
-    AskForLocation: 'Where are you?',
+    AskForLocation: 'Will do! Where do you want to find a restaurant?',
     Recommendations: 'Great, here are some recommendations:\n',
     AskForValidation: 'Had a great meal? Which venue did you visit?'
 };
