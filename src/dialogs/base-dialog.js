@@ -18,21 +18,24 @@ class HelloWorldDialog {
     }
 
     askForPreference_0(session, result) {
-        console.log(result.response);
-        session.send(Messages.proceedToPreferences.replace('%s', result.response));
-        Builder.Prompts.choice(session, 'Italian?', "Not so much|Okay|I like it|I love it!", { listStyle: Builder.ListStyle.button });
+        session.send(Messages.ProceedToPreferences.replace('%s', result.response));
+        Builder.Prompts.choice(session, 'Italian?', "Love it|Decent|Okay|Not so much", { listStyle: Builder.ListStyle.button });
     }
 
     askForPreference_1(session, result) {
-        Builder.Prompts.choice(session, 'Asian?', "Not so much|Okay|I like it|I love it!", { listStyle: Builder.ListStyle.button });
+        Builder.Prompts.choice(session, 'Turkish?', "Love it|Decent|Okay|Not so much", { listStyle: Builder.ListStyle.button });
     }
 
     askForPreference_2(session, result) {
-        Builder.Prompts.choice(session, 'American?', "Not so much|Okay|I like it|I love it!", { listStyle: Builder.ListStyle.button });
+        Builder.Prompts.choice(session, 'American?', "Love it|Decent|Okay|Not so much", { listStyle: Builder.ListStyle.button })
     }
 
     askForPricePreference(session, result) {
         Builder.Prompts.choice(session, "Great! Now, what is the price range you're looking for?", "€|€€|€€€|€€€€", { listStyle: Builder.ListStyle.button });
+    }
+
+    askForNextAction(session) {
+      session.send(Messages.NextAction)
     }
 }
 

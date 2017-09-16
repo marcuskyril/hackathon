@@ -26,10 +26,11 @@ Logger.handleExceptions(new Winston.transports.File({
 
 // Responses sent by your bot
 const Messages = {
-    Greeting: "Welcome to our restautrant recommendation bot! \
+    Greeting: "Welcome to the restaurant recommendation bot! \
               We'll give you suggestions in your area based on your preferences. First, tell us about yourself.",
     AskForName: 'What is your name?',
-    proceedToPreferences: "Hello %s! How much do you like the following cuisines?",
+    ProceedToPreferences: "Hello %s! How much do you like the following cuisines?",
+    NextAction: "You're all set! What do you want to do next?",
     AskForLocation: 'Where are you?',
     Recommendations: 'Great, here are some recommendations:\n',
     AskForValidation: 'Had a great meal? Which venue did you visit?'
